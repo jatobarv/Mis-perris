@@ -1,7 +1,7 @@
 var cacheName = "misPerris-v6";
 var filesToCache = [
     "/",
-    "/home.html",
+    "/index.html",
     "/js/app.js",
     "/js/citySelector.js",
     "/js/modal.js",
