@@ -1,19 +1,18 @@
 (function () {
 
-    var loadData = function () {
-        var xhttp = new XMLHttpRequest();
-        var url = "http://127.0.0.1:8000/posts/";
+    var adoptedDog = [];
 
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                // console.log(this.responseText);
-                var data = JSON.parse(this.responseText);
-                displayDogs(data);
-            }
+    var xhttp = new XMLHttpRequest();
+    var url = "http://127.0.0.1:8000/posts/";
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var data = JSON.parse(this.responseText);
+            displayDogs(data);
         }
-        xhttp.open('GET', url, true);
-        xhttp.send();
     }
+    xhttp.open('GET', url, true);
+    xhttp.send();
 
     var displayDogs = function (dogs) {
         var dogsContainer = document.getElementById("gallery");
@@ -44,9 +43,31 @@
             // Agregar el contenedor al documento
             dogsContainer.appendChild(dogContainer);
         }
+        saveData("Perros", dogs);
+
+        if (localStorage.getItem("Perros")) {
+            adoptedDog = JSON.parse(localStorage.getItem("Perros"));
+            // console.log(toSave);
+            dogsContainer = document.getElementsByClassName("card").innerHTML = adoptedDog;
+        }
     }
-    loadData();
+
+    var saveData = function (key, data) {
+        var toSave = JSON.stringify(data);
+        localStorage.setItem(key, toSave);
+        console.log(key, toSave);
+    }
+
+
 })();
 
-
+// Service Worker
+(function () {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+            .register('./service-worker.js')
+            .then(function () {
+            });
+    }
+})();
 
